@@ -8,23 +8,33 @@ const App = () => {
 
   const removeTour = id => setTours(tours.filter(tour => tour.id !== id))
 
-  useEffect(() => {
+  const fetchTours = async () => {
+    setLoading(true)
     try {
-      fetch(url)
-        .then(response => response.json())
-        .then(data => setTours(data))
+      const response = await fetch(url)
+      const tours = await response.json()
+      setTours(tours)
     } catch (error) {
       console.log(error)
     } finally {
       setLoading(false)
     }
+  }
+
+  useEffect(() => {
+    fetchTours()
   }, [])
 
   if (loading) return <Loading />
-  console.log(tours)
+
   return (
     <main className='main'>
       <Tours tours={tours} removeTour={removeTour} />
+      {tours.length === 0 && (
+        <button className='btn btn-block ' onClick={() => fetchTours()}>
+          Get Tours
+        </button>
+      )}
     </main>
   )
 }
