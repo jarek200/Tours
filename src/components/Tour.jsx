@@ -12,7 +12,7 @@ export default function Tour({ id, name, info, image, price, removeTour }) {
           <p>
             {readMore ? info : info.substring(0, 200)} ...
             <button className='info-btn' onClick={() => setReadMore(!readMore)}>
-              Read More
+              {readMore ? 'Show Less' : 'Read More'}
             </button>{' '}
           </p>
 
